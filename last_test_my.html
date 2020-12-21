@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>2019221016_양다희_기말과제</title>
+        <meta charset="utf-8" />
+        <style>
+            html{
+                overflow-y: scroll;
+            }
+            .wrap{
+                min-width: 720px;
+                max-width: 1920px;
+                margin: 0px auto;
+            }
+            .clearfix::after{
+                content: "";
+                clear: both;
+                display: table;
+            }
+            body{
+                background-color: #ffecd1;
+            }
+            header{
+                background-color:rgb(255, 202, 152);
+                position: relative;
+                z-index: 1;
+                height: 70px;
+            }
+            header h1{
+                float: left;
+                height: 45px;
+                margin: 10px 50px;
+            }
+            header nav{
+                float:right;
+            }
+            header nav>ul{
+                padding: 0px;
+                margin: 0px;
+            }
+            header nav>ul>li{
+                float: left;
+                list-style: none;
+                padding: 20px 0px;
+                height: 25px;
+                width: 160px;
+                text-align: center;
+            } 
+            header nav>ul>li:hover{
+                background-color: rgb(255, 176, 102);
+                color: white;
+            }
+            header nav>ul>li:hover .sub_nav{
+                background-color: white;
+                display: block;
+            }
+            .sub_nav{
+                padding: 10px;
+                margin: 20px 0px 0px 0px; /*상 우 하 좌*/
+                width: 140px;
+                display: none;
+            }
+            .sub_nav li{
+                list-style: none;
+                color: black;
+            }
+            #main_visual{
+                position: relative;
+                overflow: hidden;
+            }
+            #visual_container{
+                position: absolute;
+                width: 400%;
+                transition: left 1s;
+            }
+            .left_0{
+                left: 0%;
+            }
+            .left_1{
+                left: -100%;
+            }
+            .left_2{
+                left: -200%;
+            }
+            .left_3{
+                left: -300%;
+            }
+            .visual_content{
+                float: left;
+                width: 25%;
+            }
+            .visual_content img{
+                width: 100%;
+                display: block;
+            }
+            .button{
+                cursor: pointer;
+            }
+            .black_back{
+                background-color:  rgb(255, 176, 102);
+                color: white;
+                text-align: center;
+                padding: 10px;
+                font-size: 25px;
+            }
+            .black_back span{
+                padding: 10px;
+            }
+            #parallax_section{
+                margin-top: 150px;
+            }
+            .parallax_block{
+                transition: opacity 1s, margin 1s;
+                opacity: 0;
+                margin-top: 100px;
+            }
+            .active{
+                opacity: 1;
+                margin-top: 0px;
+            }
+            #main img{
+                width: 1000px;
+                position: relative;
+                left: 50%;
+                transform: translateX(-50%);
+                padding: 20px;
+                margin-top: 100px;
+            }
+            #main p{
+                text-align: center;
+                line-height: 2.2;
+                font-size: 15px;
+                font-style: italic;
+                margin-bottom: 200px;
+            }
+            .parallax_block div{
+                float: left;
+            }
+            .parallax_block:nth-child(even) div{
+                float: right;
+            }
+            .parallax_block:nth-child(even) div:nth-child(odd){
+                width: calc(40% - 40px);
+                padding: 20px;
+            }
+            .parallax_block:nth-child(even) div:nth-child(even){
+                width: calc(60% - 40px);
+                padding: 20px;
+            }
+            .block_left{
+                width: calc(40% - 40px);
+                padding: 20px;
+            }
+            .block_left img{
+                width: 100%;
+            }
+            .block_right{
+                width: calc(60% - 40px);
+                padding: 20px;
+            }
+            .block_right p{
+                margin: 0px;
+            }
+            .block_right p:nth-child(even) div{
+                float: right;
+            }
+            .dimmed{
+                width: 100vw;
+                height: 100vh;
+                background-color: rgba(0,0,0,0.3);
+                position: fixed;
+                top: 0px;
+                left: 0px;
+                z-index: 10;
+                display: none;
+            }
+            .dimmed_active{
+                display: block;
+            }
+            .dimmed img{
+                display: block;
+                width: 90%;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+            .title{
+                font-size: 20px;
+                font-weight: bold;
+            }
+            .paragraph{
+                line-height: 2.2;
+            }
+            footer{
+                height: 60px;
+                background-color: rgb(255, 176, 102);
+                text-align: center;
+                padding: 30px;
+                color: black;
+            }
+            footer>p{
+                font-size: 13px;
+                margin-top: 22.5px;
+            }
+        </style>
+        <script>
+            var main_visual;
+            var visual_container;
+            window.onload = function(){
+                console.log("load complete"); /*로드완료라고 알림*/
+                main_visual = document.getElementById("main_visual"); /*main_visual 찾기*/
+                visual_container = document.getElementById("visual_container");  /*visual_container 찾기*/
+                console.log(main_visual);
+                console.log(visual_container);
+                console.log(visual_container.style.height);
+                console.log(visual_container.offsetHeight);
+                main_visual.style.height = visual_container.offsetHeight+"px";
+                window.onresize = function(){
+                    main_visual.style.height=visual_container.offsetHeight+"px";
+                    /*visual_container 크기를 main_visual에 반영 */
+                }
+            }
+            var current_page = 0;
+            function setPage(index){
+                console.log("setPage:"+index);
+                console.log(visual_container);
+                visual_container.classList.remove("left_0");
+                visual_container.classList.remove("left_1");
+                visual_container.classList.remove("left_2");
+                visual_container.classList.remove("left_3");
+                visual_container.classList.add("left_"+index);
+                current_page = index; /*현재 페이지를 기록*/
+            }
+            function goLeft(){
+                current_page -= 1;
+                if(current_page < 0)current_page = 0;
+                setPage(current_page);
+            }
+            function goRight(){
+                current_page += 1;
+                if(current_page > 2)current_page = 3;
+                setPage(current_page);
+            }
+            function change_scroll(){
+                console.log(document.documentElement.scrollTop);
+                var scroll_center = document.documentElement.scrollTop + window.innerHeight/2;
+                var blocks = document.getElementsByClassName("parallax_block");
+                for(var i=0; i<blocks.length; i++){
+                    if(blocks[i].offsetTop < scroll_center){
+                        //위로 벗어남
+                        blocks[i].classList.add("active");
+                    }else{
+                        //아래로 벗어남
+                        blocks[i].classList.remove("active");
+                    }
+                }
+                if(document.documentElement.scrollTop >= document.documentElement.scrollHeight - document.documentElement.clientHeight -30){
+                    for(var j=0; j<blocks.length; j++){
+                        blocks[i].classList.add("active");
+                    }
+                }
+            }
+
+            function dimmedOff(index){
+                var dimmedDIV = document.getElementsByClassName("dimmed");
+                dimmedDIV[index].classList.remove("dimmed_active");
+            }
+            function dimmedOn(index){
+                var dimmedDIV = document.getElementsByClassName("dimmed");
+                dimmedDIV[index].classList.add("dimmed_active");
+            }
+        </script>
+    </head>
+    <body onscroll="change_scroll()">
+        <div class="wrap">
+            <header class="clearfix">
+                <h1> 백일의 낭군님 </h1>
+                <nav>
+                    <ul class="clearfix">
+                        <li>프로그램 소개
+                            <ul class="sub_nav">
+                                <li>기획의도</li>
+                                <li>인물소개</li>
+                                <li>인물관계도</li>
+                            </ul>
+                        </li>
+                        <li>사진첩
+                            <ul class="sub_nav">
+                                <li>현장포토</li>
+                                <li>대표이미지</li>
+                            </ul>
+                        </li>
+                        <li>공식 SNS
+                            <ul class="sub_nav">
+                                <li>페이스북</li>
+                                <li>인스타그램</li>
+                                <li>트위터</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </header>
+            <div id="main_visual">
+                <div id="visual_container" class="clearfix left_0">
+                    <div class="visual_content"><img src="기말고사/poster.jpg"/></div>
+                    <div class="visual_content"><img src="기말고사/poster2.jpg"/></div>
+                    <div class="visual_content"><img src="기말고사/poster3.jpg"/></div>
+                    <div class="visual_content"><img src="기말고사/poster4.jpg"/></div>
+                </div>
+            </div>
+            <div class="black_back">
+                <span class="button" onclick="goLeft();">◀</span>
+                <span class="button" onclick="setPage(0);">♤</span>
+                <span class="button" onclick="setPage(1);">♠</span>
+                <span class="button" onclick="setPage(2);">♧</span>
+                <span class="button" onclick="setPage(3);">♣</span>
+                <span class="button" onclick="goRight();">▶</span>
+            </div>
+            <div id="parallax_section">
+                <div class="parallax_block clearfix">
+                    <div class="block_left">
+                        <img src="기말고사/원득.jpg" onclick="dimmedOn(0)"/>
+                    </div>
+                    <div class="block_right">
+                        <p id="title" class="title">원득 / 도경수</p>
+                        <p class="paragraph">
+                            본명 이율. 아·쓰·남이다. '아무짝에도 쓰잘데기 없는 남정네'라는 뜻, 되겠다. 
+                            장작을 팰 줄 아나, 새끼를 꼴 줄 아나, 똥지게를 짊어질 줄을 아나. 그야말로 
+                            당최 할 줄 아는 것이라고는 없다. 때문에 부인인 홍심에게 온갖 구박을 다 당한다.
+                            이 느낌 몹시 생소하다. 나는 절대 이런 대접을 받을 사람이 아닌 것만 같은, 
+                            이 느낌적인 느낌은 뭐지? 그렇다. 원득이는 그런 대접을 받을 사람이 아니다.
+                        </p>
+                    </div>
+                </div>
+                <div class="parallax_block clearfix">
+                    <div class="block_left">
+                        <img src="기말고사/홍심.jpg" onclick="dimmedOn(1)"/>
+                    </div>
+                    <div class="block_right">
+                        <p id="title" class="title" style="text-align: right;">홍심 / 남지현</p>
+                        <p class="paragraph" style="text-align: right;">
+                            본명 윤이서. 신량역천(身良役賤, 양인 신분이면서 천역에 종사하던 부류) 인
+                            홀아비 봉수군 (봉화를 올리던 사람)의 노처녀 외동딸로 송주현 최고령 원녀다.
+                            지독한 가뭄으로 끼니 걱정하느라 피가 말라가는데 난데없이 혼인을 하란다. 
+                            왕세자가 비 안 오는 책임을 물어 원녀·광부를 반드시 혼인시키라! 명을 내렸단다. 
+                            헐... 왕세자 걔, 미친 거 아냐?
+                        </p>
+                    </div>
+                </div>
+                <div class="parallax_block clearfix">
+                    <div class="block_left">
+                        <img src="기말고사/정제윤.jpg" onclick="dimmedOn(2)"/>
+                    </div>
+                    <div class="block_right">
+                        <p class="title">정제윤 / 김선호</p>
+                        <p class="paragraph">
+                            한성부 참군. 지식은 브리태니커 백과사전 급, 식견은 삼정승을 뛰어넘는 수준. 
+                            잡학, 잡기에도 능한 뇌섹남이지만 앞길이 꽉 막힌 서자 출신이다. 
+                            굳이 하지 않아도 될 일을 도맡아 해 정굳이라 불린다. 배다른 형 대사간 
+                            정사엽에게 받은 모멸감을 되갚아 주는 방법은 출세밖에 없으니 남들 다 꺼리는 
+                            일도 굳이 굳이 하는 수밖에. 아무도 풀지 못한 세자 율이 낸 문제를 푼 덕에 
+                            그의 눈에 든다.
+                        </p>
+                    </div>
+                </div>
+                <div class="parallax_block clearfix">
+                    <div class="block_left">
+                        <img src="기말고사/김소혜.jpg" onclick="dimmedOn(3)"/>
+                    </div>
+                    <div class="block_right">
+                        <p class="title" style="text-align: right;">김소혜 / 한소희</p>
+                        <p class="paragraph" style="text-align: right;">
+                            천하일색(天下一色)이요, 경국지색(傾國之色)이라. 
+                            그녀의 얼굴을 한 번이라도 보았다면 여인은 질투에 밤잠을 설칠 것이오, 
+                            사내는 음심(淫心)에 밤잠을 설칠 것이다. 그러나 빼어난 미색이 무슨 소용 있으랴. 
+                            훔쳐야 할 단 하나의 마음을 훔칠 수가 없으니. 궁궐의 밤은 너무도 외롭고 길어서 
+                            그녀의 마음은 눈처럼 차가워졌다. 
+                            권력의 실세 김차언의 여식.
+                        </p>
+                    </div>
+                </div>
+                <div class="parallax_block clearfix">
+                    <div class="block_left">
+                        <img src="기말고사/무연.jpg" onclick="dimmedOn(4)"/>
+                    </div>
+                    <div class="block_right">
+                        <p class="title">무연 / 김재영</p>
+                        <p class="paragraph">
+                            살수. 매우 서늘하고 아름답게 사람을 죽이는 살수. 
+                            웃는 법을 잊어버린 한겨울 눈꽃 같은 사내. 오래전 김차언에게 목숨을 구걸한 대가로 
+                            그의 비밀 살수가 되었다. 어느 날 그에게 끔찍한 지령이 내려온다. 기우제를 떠난 
+                            세자를 암살할 것! 그 임무를 완수한다면 신분을 복권해주겠다는 약속이 있었다. 
+                            그래서 감히 세자의 심장을 향해 활을 쏘았다. 율이 살아있다는 사실을 뒤늦게 안 뒤 
+                            숱한 기로에 선다.
+                        </p>
+                    </div>
+                </div>
+                <div class="parallax_block clearfix">
+                    <div class="block_left">
+                        <img src="기말고사/김차언.jpg" onclick="dimmedOn(5)"/>
+                    </div>
+                    <div class="block_right">
+                        <p class="title" style="text-align: right;">김차언 / 조성하</p>
+                        <p class="paragraph" style="text-align: right;">
+                            좌의정. 세자의 장인. 금상 위의 좌상. 조선 권력의 실세 1위. 
+                            십수 년 전 선왕을 끌어내리고 율의 아버지를 왕위에 올린 반정의 핵심 공신. 
+                            스스로 왕이 될 수도 있었겠으나 옥좌에는 관심이 없다. 큰 힘엔 큰 책임이 따른다. 
+                            허나 책임은 작을수록, 힘은 클수록 좋은 법. 왕실의 내탕고보다 열 배는 많은 
+                            재산을 소유하고 있는 데다 실정으로 고통받는 백성들의 비난이 모두 왕을 향하니 
+                            힘은 없고 책임만 있는 임금보다 못한 게 무에 있으랴.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="dimmed" onclick="dimmedOff(0)">
+                <img src="기말고사/원득.jpg"/>
+            </div>
+            <div class="dimmed" onclick="dimmedOff(1)">
+                <img src="기말고사/홍심.jpg"/>
+            </div>
+            <div class="dimmed" onclick="dimmedOff(2)">
+                <img src="기말고사/정제윤.jpg"/>
+            </div>
+            <div class="dimmed" onclick="dimmedOff(3)">
+                <img src="기말고사/김소혜.jpg"/>
+            </div>
+            <div class="dimmed" onclick="dimmedOff(4)">
+                <img src="기말고사/무연.jpg"/>
+            </div>
+            <div class="dimmed" onclick="dimmedOff(5)">
+                <img src="기말고사/김차언.jpg"/>
+            </div>
+            <footer>
+                <p>
+                    2020. 12. 16. Yang Da Hee
+                </p>
+            </footer>
+        </div>
+    </body>
+</html> 
